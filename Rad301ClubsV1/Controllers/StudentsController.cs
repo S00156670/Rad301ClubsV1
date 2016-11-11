@@ -17,9 +17,16 @@ namespace Rad301ClubsV1.Controllers
         private ClubContext db = new ClubContext();
 
         // GET: Students
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string Firstname = null,string Surname = null)
         {
-            return View(await db.Students.ToListAsync());
+            //     return View(await db.Students.ToListAsync());
+
+            ViewBag.Fname = Firstname;
+            ViewBag.Sname = Surname;
+
+            return View(await db.Students.Where(s => (Surname == null && Firstname == null)
+                || s.Sname.StartsWith(Surname) || s.Fname.StartsWith(Firstname)).ToListAsync());
+
         }
 
         // GET: Students/Details/5
